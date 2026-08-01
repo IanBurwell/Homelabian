@@ -1,0 +1,6 @@
+image
+image.raw
+mkosi.tools.manifest
+mkosi.tools/
+.#image.raw.lck
+.env

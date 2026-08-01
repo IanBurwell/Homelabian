@@ -1,0 +1,24 @@
+#!/bin/bash
+set -ex
+
+# This script runs after building and installing everything into the image
+# In particular, it adds a normal user and sets up passwordless login via SSH
+
+# NOTE: If mkosi is run without sudo, useradd will fail to set the user's 
+# home directory ownership correctly. Thus this image needs mkosi run as root
+
+# Add a normal user
+useradd --create-home \
+                     --shell /bin/bash \
+                     --user-group \
+                     --password "$NEW_USER_PASS_SHA" \
+                     "$NEW_USER"
+                    
+# Make normal user a sudoer
+usermod -aG sudo $NEW_USER
+
+# Setup SSH authorized keys for the user to allow remote passwordless login
+mkdir -p "/home/$NEW_USER/.ssh"
+echo "$AUTHORIZED_SSH_PUB_KEY" > "/home/$NEW_USER/.ssh/authorized_keys"
+chmod 0700 "/home/$NEW_USER/.ssh"
+chmod 0600 "/home/$NEW_USER/.ssh/authorized_keys"
