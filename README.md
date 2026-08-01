@@ -4,15 +4,16 @@ Scripts and configs used with `mkosi` to build a custom bare-ish bones Debian im
 
 
 ## Usage
-1. In a Linux/WSL environment, install  [`mkosi v26`](https://github.com/systemd/mkosi) for the root user via pipx ([update pipx for Ubuntu 24](https://github.com/pypa/pipx/discussions/1427)):
+1. In a Linux/WSL environment, install `debian-archive-keyring` and [`mkosi v26`](https://github.com/systemd/mkosi) for the root user via pipx ([update pipx for Ubuntu 24](https://github.com/pypa/pipx/discussions/1427)):
 ```
+sudo apt install debian-archive-keyring
 sudo pipx install --global https://github.com/systemd/mkosi/archive/refs/tags/v26.tar.gz
 mkosi --version
 ```
 
 2. Create a `.env` to you liking (see `.env.example`). User password can be generated with `openssl passwd -6`.
 3. To build, just run `sudo mkosi build` (sudo required for custom users). If you modify the `mkosi.conf` file you will need to specify `-f`.
-4. To quickly test in a sandbox use `mkosi boot`. To test the image in a full VM, run `mkosi vm`. 
+4. To quickly test in a sandbox use `mkosi boot`. To test the image in a full VM, run `sudo mkosi vm`. 
 
 
 ## Other helpful stuff
@@ -29,5 +30,5 @@ mkosi ssh      # SSH's into an already booted image in a VM (test SSH?)
 mkosi burn <device> # Deploy image to a block device
 ```
 
-- To quit a vm `Ctrl+C`+`A` then type `quit`
+- To quit a VM `Ctrl+C`+`A` then type `quit`
 - To quit from `mkosi boot` type `CTRL+]` three times in a row

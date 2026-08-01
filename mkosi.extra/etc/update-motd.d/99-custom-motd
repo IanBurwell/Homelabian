@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Gather system metrics
+IP=$(hostname -I | awk '{print $1}')
+CPU_LOAD=$(cat /proc/loadavg | awk '{print $1}')
+DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}')
+FREE_MEM=$(free -m | awk 'NR==2 {print $4" MB"}')
+
+# Format and print the output
+echo -e "IPv4 Address : $IP"
+echo -e "CPU Load     : $CPU_LOAD (1 min avg)"
+echo -e "Disk Usage   : $DISK_USAGE (Root /)"
+echo -e "Free Memory  : $FREE_MEM"
+echo -e "----------------------------------\n"
