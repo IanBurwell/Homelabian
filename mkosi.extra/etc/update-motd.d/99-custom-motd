@@ -1,14 +1,155 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-# Gather system metrics
-IP=$(hostname -I | awk '{print $1}')
-CPU_LOAD=$(cat /proc/loadavg | awk '{print $1}')
-DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}')
-FREE_MEM=$(free -m | awk 'NR==2 {print $4" MB"}')
+# A script to display some nice/fun info when logging in
 
-# Format and print the output
-echo -e "IPv4 Address : $IP"
-echo -e "CPU Load     : $CPU_LOAD (1 min avg)"
-echo -e "Disk Usage   : $DISK_USAGE (Root /)"
-echo -e "Free Memory  : $FREE_MEM"
-echo -e "----------------------------------\n"
+import os
+import socket
+
+
+DIM = "\x1b[2m"
+BOLD = "\x1b[1m"
+BLINK = "\x1b[5m"
+GREEN = "\x1b[32m"
+YELLOW = "\x1b[33m"
+RED = "\x1b[31m"
+ANSI_RESET = "\x1b[0m"
+
+
+def get_cpu_5m_avg():
+    if not os.path.exists("/proc/loadavg"):
+        return None
+
+    with open("/proc/loadavg", "r", encoding="utf-8") as handle:
+        cpu_usage = float(handle.read().split()[1])*100
+        
+    if cpu_usage < 40:
+        return f"{GREEN}{cpu_usage:04.1f}%{ANSI_RESET}"
+    elif cpu_usage < 80:
+        return f"{YELLOW}{cpu_usage:04.1f}%{ANSI_RESET}"
+    else:
+        return f"{RED+BOLD}{cpu_usage:04.1f}%{ANSI_RESET}"
+
+
+def get_ipv4_address():
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.connect(("8.8.8.8", 80))
+            ip_address = sock.getsockname()[0]
+    except OSError:
+        return None
+
+    if not ip_address:
+        return f"{RED+BOLD}None{ANSI_RESET}"
+
+    split_ip = ip_address.split(".")
+    formatted_ip = (
+        f"{GREEN}{split_ip[0]}{ANSI_RESET}."
+        f"{GREEN}{split_ip[1]}{ANSI_RESET}."
+        f"{GREEN}{split_ip[2]}{ANSI_RESET}."
+        f"{GREEN}{split_ip[3]}{ANSI_RESET}"
+    )
+
+    return formatted_ip
+
+
+def get_disk_usage():
+    statvfs = os.statvfs("/")
+    total_bytes = statvfs.f_frsize * statvfs.f_blocks
+    free_bytes = statvfs.f_frsize * statvfs.f_bavail
+    used_bytes = total_bytes - free_bytes
+    disk_usage = (used_bytes / total_bytes) * 100
+
+    if disk_usage < 70:
+        formatted_usage = f"{GREEN}{disk_usage:04.1f}%{ANSI_RESET}"
+    elif disk_usage < 90:
+        formatted_usage = f"{YELLOW}{disk_usage:04.1f}%{ANSI_RESET}"
+    else:
+        formatted_usage = f"{RED+BOLD}{disk_usage:04.1f}%{ANSI_RESET}"
+
+    return formatted_usage
+
+
+def get_free_memory():
+    if not os.path.exists("/proc/meminfo"):
+        return None
+
+    with open("/proc/meminfo", "r", encoding="utf-8") as handle:
+        mem_total_kB = int(handle.readline().split()[1])
+        mem_free_kB = int(handle.readline().split()[1])
+
+    free_mem_percent = (mem_free_kB / mem_total_kB) * 100
+
+    if mem_free_kB < 10e3:
+        mem_free_scaled = f"{mem_free_kB}KB"
+    elif mem_free_kB < 10e6:
+        mem_free_scaled = f"{mem_free_kB/10e3:04.1f}MB"
+    else:
+        mem_free_scaled = f"{mem_free_kB/10e6:04.1f}GB"
+
+    if mem_free_kB < 200_000:
+        formatted_mem = f"{RED+BOLD}{free_mem_percent:04.1f}%{ANSI_RESET} ({mem_free_scaled})"
+    elif free_mem_percent < 50:
+        formatted_mem = f"{YELLOW}{free_mem_percent:04.1f}%{ANSI_RESET} ({mem_free_scaled})"
+    else:
+        formatted_mem = f"{GREEN}{free_mem_percent:04.1f}%{ANSI_RESET} ({mem_free_scaled})"
+
+    return formatted_mem
+
+
+def get_uptime():
+    if not os.path.exists("/proc/uptime"):
+        return None
+
+    with open("/proc/uptime", "r", encoding="utf-8") as handle:
+        seconds = float(handle.read().split()[0])
+
+    days, remainder = divmod(int(seconds), 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, _ = divmod(remainder, 60)
+
+    parts = []
+    if days:
+        parts.append(f"{days}d")
+    if hours:
+        parts.append(f"{hours}h")
+    if minutes:
+        parts.append(f"{minutes}m")
+    if not parts:
+        parts.append("<1m")
+
+    uptime_text = " ".join(parts)
+
+    reboot_required = False
+    if os.path.exists("/var/run/reboot-required"):
+        reboot_required = True
+
+    if reboot_required:
+        return f"{uptime_text} ({YELLOW}reboot required{ANSI_RESET})"
+
+    return uptime_text
+
+
+def main():
+    metrics = [
+        ("CPU", get_cpu_5m_avg(), "(5min avg)"),
+        ("IPv4", get_ipv4_address()),
+        ("Disk Usage", get_disk_usage(), "(Root /)"),
+        ("Free Memory", get_free_memory()),
+        ("Uptime", get_uptime()),
+    ]
+
+    max_label_len = max(len(label) for label, *_ in metrics)
+
+    for label, value, *suffix in metrics:
+        if value is None:
+            value = f"{RED+DIM}Err{ANSI_RESET}"
+
+        suffix_text = f" {suffix[0]}" if suffix else ""
+        print(f"{BOLD}{label:<{max_label_len}}:{ANSI_RESET} "
+              f"{value}{suffix_text}")
+
+    print()
+
+
+if __name__ == "__main__":
+    main()

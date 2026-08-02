@@ -12,8 +12,8 @@ mkosi --version
 ```
 
 2. Create a `.env` to you liking (see `.env.example`). User password can be generated with `openssl passwd -6`.
-3. To build, just run `sudo mkosi build` (sudo required for custom users). If you modify the `mkosi.conf` file you will need to specify `-f`.
-4. To quickly test in a sandbox use `mkosi boot`. To test the image in a full VM, run `sudo mkosi vm`. 
+3. To build, just run `sudo mkosi -f` (sudo required for custom users).
+4. To quickly test in a sandbox use `mkosi boot`. To test the image in a full VM, run `sudo mkosi vm`. Note you can add `-f` to also re-build the image.
 
 
 ## Other helpful stuff
@@ -30,5 +30,5 @@ mkosi ssh      # SSH's into an already booted image in a VM (test SSH?)
 mkosi burn <device> # Deploy image to a block device
 ```
 
-- To quit a VM `Ctrl+C`+`A` then type `quit`
+- To quit a VM `Ctrl+C`+`X`
 - To quit from `mkosi boot` type `CTRL+]` three times in a row
