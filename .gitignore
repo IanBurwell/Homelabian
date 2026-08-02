@@ -1,5 +1,7 @@
 build/
 mkosi.tools.manifest
 mkosi.tools/
+mkosi.key
+mkosi.crt
 .#image.raw.lck
 .env

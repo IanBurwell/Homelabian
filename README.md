@@ -20,15 +20,6 @@ mkosi --version
 
 [`mkosi`'s man page](https://github.com/systemd/mkosi/blob/main/mkosi/resources/man/mkosi.1.md) for usage and documentation.
 
-Subcommands that look useful:
-```
-mkosi summary  # prints summary info based on the current configs
-mkosi shell    # opens the image sandboxed without booting for quick inspection
-mkosi boot     # boots the image in a container
-mkosi vm       # boots the image fully virtualized (boots the new kernel etc)
-mkosi ssh      # SSH's into an already booted image in a VM (test SSH?)
-mkosi burn <device> # Deploy image to a block device
-```
-
+- `mkosi burn <device>` looks useful
 - To quit a VM `Ctrl+C`+`X`
 - To quit from `mkosi boot` type `CTRL+]` three times in a row
