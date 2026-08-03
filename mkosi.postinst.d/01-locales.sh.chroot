@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail  # Fail on error, unset variables, or failed pipeline steps
+set -x  # debug print script commands in build log
+
+# This script generates and sets locale variables
+
+# Generate required locale definitions
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+locale-gen
+
+# Explicitly set locale variables
+cat <<EOF > /etc/locale.conf
+LANG=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+EOF

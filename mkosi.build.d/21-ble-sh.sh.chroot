@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail  # Fail on error, unset variables, or failed pipeline steps
+set -x  # debug print script commands in build log
+
+# This script runs on the host and should be used to build extra software that 
+# is not available in the distribution's package repositories.
+
+# TODO: Somehow make it auto update?
+
+# Build ble.sh (https://github.com/akinomyoga/ble.sh)
+TMP_DIR=$(mktemp -d)
+git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git "$TMP_DIR"
+
+# Compile and install directly into the final image's filesystem
+make -C "$TMP_DIR" install PREFIX=/usr DESTDIR="$DESTDIR"
