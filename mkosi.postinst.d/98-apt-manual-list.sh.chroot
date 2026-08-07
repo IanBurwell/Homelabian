@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Manually generate initial list of installed apt packages for etckeeper tracking
+apt-mark showmanual > /etc/apt-manual-packages.list

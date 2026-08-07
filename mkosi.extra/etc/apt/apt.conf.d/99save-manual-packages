@@ -1,0 +1,4 @@
+
+// Simple script that saves a list of manually installed apt packages
+// after each apt upgrade to allow them to be easily tracked by etckeeper
+DPkg::Post-Invoke { "apt-mark showmanual > /etc/apt-manual-packages.list"; };
