@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail  # Fail on error, unset variables, or failed pipeline steps
+set -x  # debug print script commands in build log
+
+# Script run before image build/assembly
+# In particular, this generates a the systemd-repart config file to generate the
+# swap partition using environment variables for target size
+
+# Default to 2G if SWAP_SIZE is not provided in your EnvironmentFiles
+TARGET_SIZE=${SWAP_SIZE:-2G}
+
+cat <<EOF > mkosi.repart/08-swap.conf
+[Partition]
+Type=swap
+Format=swap
+SizeMinBytes=$TARGET_SIZE
+SizeMaxBytes=$TARGET_SIZE
+EOF
+
+chown $MKOSI_UID:$MKOSI_GID mkosi.repart/08-swap.conf
