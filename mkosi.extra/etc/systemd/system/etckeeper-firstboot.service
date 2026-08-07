@@ -1,0 +1,13 @@
+[Unit]
+Description=Etckeeper First Boot Commit
+ConditionFirstBoot=yes
+After=systemd-machine-id-setup.service systemd-firstboot.service systemd-resolved.service
+
+[Service]
+Type=oneshot
+# The '-' prefix ignores the exit code in case there is nothing to commit
+ExecStart=-/usr/bin/etckeeper commit "first boot systemd updates"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

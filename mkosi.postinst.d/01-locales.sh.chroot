@@ -8,8 +8,5 @@ set -x  # debug print script commands in build log
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 
-# Explicitly set locale variables
-cat <<EOF > /etc/locale.conf
-LANG=en_US.UTF-8
-LC_ALL=en_US.UTF-8
-EOF
+# Explicitly set locale variable
+echo "LANG=en_US.UTF-8" > /etc/locale.conf

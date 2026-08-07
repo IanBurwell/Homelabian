@@ -24,3 +24,4 @@ mkosi --version
 - `mkosi burn <device>` looks useful
 - To quit a VM `Ctrl+C`+`X`
 - To quit from `mkosi boot` type `CTRL+]` three times in a row
+- Install `apt-cacher-ng` to cache apt packages and speed up build

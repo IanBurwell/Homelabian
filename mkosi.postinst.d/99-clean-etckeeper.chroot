@@ -1,0 +1,16 @@
+#!/bin/bash
+set -euo pipefail  # Fail on error, unset variables, or failed pipeline steps
+set -x  # debug print script commands in build log
+
+# This script runs after building and installing everything into the image
+# In particular, it cleans the git history of etckeeper so a fresh image
+# has a single initial base commit for tracking `/etc` changes
+
+# Enable a custom service that auto commits the the initial changes that 
+# systemd makes to `/etc` after first boot
+systemctl enable etckeeper-firstboot.service
+
+# Clear `/etc` changes since etckeeper was installed by re-initializing the repo
+etckeeper uninit -f
+etckeeper init
+etckeeper commit "Base Homelabian config for v$IMAGE_VERSION"
