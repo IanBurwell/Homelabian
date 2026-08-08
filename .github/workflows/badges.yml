@@ -1,0 +1,30 @@
+name: README Badges
+
+on: [push]
+
+jobs:
+  todos:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Count TODOs
+        run: |
+          git grep -iI "TODO" -- ':!.github'
+          TODOS=$(git grep -iI "TODO" -- ':!.github' | wc -l)
+          echo "TODOS=${TODOS}" | tee -a $GITHUB_ENV
+
+      # Build TODO badge
+      - name: Create TODOs Badge
+        uses: schneegans/dynamic-badges-action@v1.9.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 0ec3052f4bd1c320fa986de9ae312d59
+          filename: todos.json
+          label: TODOs
+          message: ${{ env.TODOS }}
+          valColorRange: ${{ env.TODOS }}
+          invertColorRange: true
+          maxColorRange: 20
+          minColorRange: 0
