@@ -1,0 +1,39 @@
+name: README Badges
+
+on: [push]
+
+jobs:
+  mkosi-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup-mkosi
+        uses: systemd/mkosi@v26
+
+      - name: create .env file
+        run: cp .env.example .env
+
+      - name: Build image
+        run: sudo mkosi -f
+
+      - name: Calculate image size
+        run: |
+          RAW_SIZE=$(du -s build/homelabian_image.raw | cut -f1)
+          SIZE=$(du -sh build/homelabian_image.raw | cut -f1)
+          echo "IMAGE_RAW_SIZE=$RAW_SIZE" | tee -a $GITHUB_ENV
+          echo "IMAGE_SIZE=$SIZE" | tee -a $GITHUB_ENV
+
+      - name: Create image size badge
+        uses: schneegans/dynamic-badges-action@v1.9.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 0ec3052f4bd1c320fa986de9ae312d59
+          filename: img-size.json
+          label: Raw Image Size
+          message: ${{ env.IMAGE_SIZE }}
+          valColorRange: ${{ env.IMAGE_RAW_SIZE }}
+          invertColorRange: true
+          maxColorRange: 4000000
+          minColorRange: 1000000

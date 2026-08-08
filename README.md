@@ -1,5 +1,12 @@
 # Homelabian - Ian's custom homelab Debian image
-![to-do-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/todos.json)
+
+<div align="center">
+
+  <a href="">![to-do-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/todos.json)</a>
+  <a href="">![img-size-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/img-size.json)</a>
+
+</div>
+
 
 Scripts and configs used with `mkosi` to build a custom bare-ish bones Debian image that is quick and easy to set up on a new machine (currently targeted at an intel DFF PC).
 
