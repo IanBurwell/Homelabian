@@ -1,4 +1,4 @@
-name: README Badges
+name: Basic README badges
 
 on: [push]
 
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-slim
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Count TODOs
         run: |
@@ -26,5 +26,5 @@ jobs:
           message: ${{ env.TODOS }}
           valColorRange: ${{ env.TODOS }}
           invertColorRange: true
-          maxColorRange: 20
+          maxColorRange: 10
           minColorRange: 0

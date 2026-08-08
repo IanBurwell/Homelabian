@@ -1,10 +1,11 @@
 # Homelabian - Ian's custom homelab Debian image
 
 <div align="center">
-
-  <a href="">![to-do-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/todos.json)</a>
-  <a href="">![img-size-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/img-size.json)</a>
-
+  <a href="">[![Debian](https://img.shields.io/badge/Debian-A81D33?logo=debian&logoColor=fff)](#)</a>
+  <a href="">[![to-do-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/todos.json)](#)</a>
+  <a href="">[![img-size-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/img-size.json)](#)</a>
+  <a href="">[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/IanBurwell/Homelabian/mkosi-build.yml)](/actions)</a>
+  <a href="">[![GitHub last commit](https://img.shields.io/github/last-commit/IanBurwell/Homelabian)](/commits/main)</a>
 </div>
 
 
