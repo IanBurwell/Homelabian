@@ -41,6 +41,8 @@ setup_hostname() {
 
     printf '%s\n' "$new_hostname" > /etc/hostname
     hostname "$new_hostname" 2>/dev/null || true
+    sed -i "s/homelabian/${new_hostname}/" /etc/hosts
+
     log "Hostname set to ${new_hostname}"
 }
 
@@ -114,6 +116,7 @@ setup_tailscale() {
         error "Tailscale setup failed, run manually with 'sudo tailscale up'"
         return 0
     fi
+    log "Tailscale setup, remember to disable key expiry of this server on the web interface"
     return 1
 }
 

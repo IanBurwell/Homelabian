@@ -12,7 +12,6 @@ set -x  # debug print script commands in build log
 apt update
 apt install -y tailscale tailscale-archive-keyring
 
-
 # Firewall setup
 ufw default deny incoming
 ufw default allow outgoing
@@ -21,6 +20,3 @@ ufw allow from 10.0.0.0/24 to any port ssh  # Allow SSH from local network
 ufw limit ssh
 ufw logging medium
 ufw enable
-
-# TODO add to first-run TUI script to authenticate and remind to disable expiry
-
