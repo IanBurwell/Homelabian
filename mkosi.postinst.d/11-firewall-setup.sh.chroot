@@ -3,14 +3,7 @@ set -euo pipefail  # Fail on error, unset variables, or failed pipeline steps
 set -x  # debug print script commands in build log
 
 # This script runs after building and installing everything into the image
-# In particular, it sets up a few security-related things
-
-# Setup and install tailscale VPN
-# Note the keyring/sources.list files are added prior, but using mkosi.skeleton
-# nor mkosi.sandbox includes them in the original mkosi `apt update`
-# TODO find a way for mkosi to install these
-apt update
-apt install -y tailscale tailscale-archive-keyring
+# In particular, it sets up the ufw firewall
 
 # Firewall setup
 ufw default deny incoming

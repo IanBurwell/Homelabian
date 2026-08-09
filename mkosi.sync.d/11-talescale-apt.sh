@@ -13,9 +13,9 @@ OS="${DISTRIBUTION}"
 VERSION="${RELEASE}"
 
 curl -fsSL "https://pkgs.tailscale.com/$TRACK/$OS/$VERSION.noarmor.gpg" \
-  -o mkosi.extra/usr/share/keyrings/tailscale-archive-keyring.gpg
-chmod 0644 mkosi.extra/usr/share/keyrings/tailscale-archive-keyring.gpg
+  -o mkosi.sandbox/usr/share/keyrings/tailscale-archive-keyring.gpg
+chmod 0644 mkosi.sandbox/usr/share/keyrings/tailscale-archive-keyring.gpg
 
 curl -fsSL "https://pkgs.tailscale.com/$TRACK/$OS/$VERSION.tailscale-keyring.list" \
-  -o mkosi.extra/etc/apt/sources.list.d/tailscale.list
-chmod 0644 mkosi.extra/etc/apt/sources.list.d/tailscale.list
+  -o mkosi.sandbox/etc/apt/sources.list.d/tailscale.list
+chmod 0644 mkosi.sandbox/etc/apt/sources.list.d/tailscale.list

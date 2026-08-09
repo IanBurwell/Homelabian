@@ -8,6 +8,16 @@ set -x  # debug print script commands in build log
 # NOTE: If mkosi is run without sudo, useradd will fail to set the user's 
 # home directory ownership correctly. Thus this image needs mkosi run as root
 
+if [[ -z "$NEW_USER_PASS_SHA" ]]; then
+    echo "Error: NEW_USER_PASS_SHA not set" >&2
+    exit 1
+fi
+
+if [[ -z "$NEW_USER" ]]; then
+    echo "Error: NEW_USER not set" >&2
+    exit 1
+fi
+
 # Add a normal user
 useradd --create-home \
                      --shell /bin/bash \
@@ -20,7 +30,11 @@ usermod -aG sudo $NEW_USER
 
 # Setup SSH authorized keys for the user to allow remote passwordless login
 mkdir -p "/home/$NEW_USER/.ssh"
-echo "$AUTHORIZED_SSH_PUB_KEY" > "/home/$NEW_USER/.ssh/authorized_keys"
+if [[ -z "$AUTHORIZED_SSH_PUB_KEY" ]]; then
+    echo "Warning: AUTHORIZED_SSH_PUB_KEY not set, skipping ssh pub key install" >&2
+else
+    echo "$AUTHORIZED_SSH_PUB_KEY" > "/home/$NEW_USER/.ssh/authorized_keys"
+fi
 chmod 0700 "/home/$NEW_USER/.ssh"
 chmod 0600 "/home/$NEW_USER/.ssh/authorized_keys"
 

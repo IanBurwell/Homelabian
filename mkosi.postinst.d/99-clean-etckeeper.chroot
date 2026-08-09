@@ -12,5 +12,5 @@ systemctl enable etckeeper-firstboot.service
 
 # Clear `/etc` changes since etckeeper was installed by re-initializing the repo
 etckeeper uninit -f
-etckeeper init
-etckeeper commit "Base Homelabian config for v$IMAGE_VERSION"
+etckeeper init > /dev/null
+etckeeper commit "Base Homelabian config for v$IMAGE_VERSION" > /dev/null
