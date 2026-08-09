@@ -8,6 +8,7 @@
   <a href="https://github.com/IanBurwell/Homelabian/commits/main"><img src="https://img.shields.io/github/last-commit/IanBurwell/Homelabian" alt="GitHub last commit"></a>
 </div>
 
+
 Scripts and configs used with `mkosi` to build a custom bare-ish bones Debian image that is quick and easy to set up on a new machine (currently targeted at an intel DFF PC).
 
 ## Usage
@@ -22,11 +23,9 @@ mkosi --version
 3. To build, just run `sudo mkosi -f` (sudo required for custom users).
 4. To quickly test in a sandbox use `mkosi boot`. To test the image in a full VM, run `sudo mkosi vm`. Note you can add `-f` to also re-build the image.
 
-
 ## Other helpful stuff
 
-[`mkosi`'s man page](https://github.com/systemd/mkosi/blob/main/mkosi/resources/man/mkosi.1.md) for usage and documentation.
-
+- [`mkosi`'s man page](https://github.com/systemd/mkosi/blob/main/mkosi/resources/man/mkosi.1.md) for usage and documentation.
 - `mkosi burn <device>` looks useful
 - To quit a VM `Ctrl+C`+`X`
 - To quit from `mkosi boot` type `CTRL+]` three times in a row

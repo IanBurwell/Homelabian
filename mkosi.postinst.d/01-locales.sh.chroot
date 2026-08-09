@@ -4,9 +4,12 @@ set -x  # debug print script commands in build log
 
 # This script generates and sets locale variables
 
+# Image locale
+IMAGE_LOCALE=$(grep "^Locale=" $SRCDIR/mkosi.conf | cut -d '=' -f 2)
+
 # Generate required locale definitions
-echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+echo "$IMAGE_LOCALE UTF-8" > /etc/locale.gen
 locale-gen
 
 # Explicitly set locale variable
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "LANG=$IMAGE_LOCALE" > /etc/locale.conf

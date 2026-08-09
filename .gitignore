@@ -6,7 +6,7 @@ mkosi.crt
 .#image.raw.lck
 .env
 
-# Generated dynamically by mkosi.prepare
+# Generated based on .env by mkosi.prepare
 mkosi.repart/08-swap.conf
 
 # Intended for local configs to not be tracked
