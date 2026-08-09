@@ -9,7 +9,7 @@ set -x  # debug print script commands in build log
 
 # Build ble.sh (https://github.com/akinomyoga/ble.sh)
 TMP_DIR=$(mktemp -d)
-git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git "$TMP_DIR"
+git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git "$TMP_DIR" > /dev/null
 
 # Compile and install directly into the final image's filesystem
-make -C "$TMP_DIR" install PREFIX=/usr DESTDIR="$DESTDIR"
+make -C "$TMP_DIR" install PREFIX=/usr DESTDIR="$DESTDIR" > /dev/null

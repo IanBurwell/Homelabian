@@ -1,4 +1,4 @@
-name: mkosi build and badges
+name: mkosi build and release
 
 on:
   push:
@@ -6,6 +6,9 @@ on:
       - 'README.md'
       - '.github/**'
       - '!.github/workflows/mkosi-build.yml'
+
+permissions:
+  contents: write
 
 jobs:
   mkosi-build:
@@ -18,17 +21,36 @@ jobs:
         uses: systemd/mkosi@v26
 
       - name: create .env file
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
 
       - name: Build image
-        run: sudo mkosi -f
+        run: sudo mkosi -f -o ""
 
       - name: Calculate image size
         run: |
-          RAW_SIZE=$(du -s build/homelabian_image.raw | cut -f1)
-          SIZE=$(du -sh build/homelabian_image.raw | cut -f1)
+          RAW_SIZE=$(du -s build/Homelabian*.raw | cut -f1)
+          SIZE=$(du -sh build/Homelabian*.raw | cut -f1)
           echo "IMAGE_RAW_SIZE=$RAW_SIZE" | tee -a $GITHUB_ENV
           echo "IMAGE_SIZE=$SIZE" | tee -a $GITHUB_ENV
+
+      - name: Compress image
+        if: github.ref_type == 'tag'
+        working-directory: build
+        run: |
+          FILE=$(ls Homelabian*.raw)
+          sudo chown -R $USER:$USER .
+          zip -9 "${FILE}.zip" "${FILE}"
+
+      - name: Release image
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          working_directory: build
+          files: Homelabian*.raw.zip
+          prerelease: true
+          fail_on_unmatched_files: true
+          generate_release_notes: true
 
       - name: Create image size badge
         uses: schneegans/dynamic-badges-action@v1.9.0
