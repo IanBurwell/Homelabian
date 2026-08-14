@@ -1,0 +1,6 @@
+# Automatically link uo ethernet and get an IP
+[Match]
+Name=en* eth*
+
+[Network]
+DHCP=yes

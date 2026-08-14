@@ -11,5 +11,5 @@ ufw default allow outgoing
 ufw allow in on tailscale0  # Allow all traffic on tailscale interface
 ufw allow from 10.0.0.0/24 to any port ssh  # Allow SSH from local network
 ufw limit ssh
-ufw logging medium
+ufw logging low
 ufw enable
