@@ -3,7 +3,6 @@ set -euo pipefail  # Fail on error, unset variables, or failed pipeline steps
 set -x  # debug print script commands in build log
 
 # This script runs after building and installing everything into the image
-# In particular, it sets up docker-specific settings
+# In particular, it updates the `locate` command's file index
 
-# TODO: https://github.com/chaifeng/ufw-docker#solving-ufw-and-docker-issues
-
+mkosi-chroot updatedb

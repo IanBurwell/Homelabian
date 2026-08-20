@@ -4,6 +4,7 @@
   <a href="https://github.com/IanBurwell/Homelabian"><img src="https://img.shields.io/badge/Debian-A81D33?logo=debian&logoColor=fff" alt="Debian"></a>
   <a href="https://github.com/IanBurwell/Homelabian"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/todos.json" alt="to-do-badge"></a>
   <a href="https://github.com/IanBurwell/Homelabian"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/img-size.json" alt="img-size-badge"></a>
+  <a href="https://github.com/IanBurwell/Homelabian"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ianburwell/0ec3052f4bd1c320fa986de9ae312d59/raw/mini-size.json" alt="mini-size-badge"></a>
   <a href="https://github.com/IanBurwell/Homelabian/actions"><img src="https://img.shields.io/github/actions/workflow/status/IanBurwell/Homelabian/mkosi-build.yml" alt="GitHub Actions Workflow Status"></a>
   <a href="https://github.com/IanBurwell/Homelabian/commits/main"><img src="https://img.shields.io/github/last-commit/IanBurwell/Homelabian" alt="GitHub last commit"></a>
 </div>

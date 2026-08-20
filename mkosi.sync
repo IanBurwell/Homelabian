@@ -6,6 +6,9 @@ set -x
 # While these are tracked in git, they may be updated in the future, so this 
 # script ensures that the latest versions are used when building the image
 
+# It also is in the base directory as it touches the sandbox that is only setup 
+# by the "main" image/config
+
 # Based on https://tailscale.com/install.sh
 
 TRACK="stable"

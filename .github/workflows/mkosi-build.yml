@@ -25,42 +25,64 @@ jobs:
           cp .env.example .env
 
       - name: Build image
-        run: sudo mkosi -f -o ""
+        run: sudo mkosi -f
 
       - name: Calculate image size
+        working-directory: build
         run: |
-          RAW_SIZE=$(du -s build/Homelabian*.raw | cut -f1)
-          SIZE=$(du -sh build/Homelabian*.raw | cut -f1)
-          echo "IMAGE_RAW_SIZE=$RAW_SIZE" | tee -a $GITHUB_ENV
-          echo "IMAGE_SIZE=$SIZE" | tee -a $GITHUB_ENV
+          FULL_RAW_SIZE=$(du -s homelabian-full*.img | cut -f1)
+          FULL_READABLE_SIZE=$(du -sh Homelabian-full*.img | cut -f1)
 
-      - name: Compress image
+          MINI_RAW_SIZE=$(du -s homelabian-mini*.raw | cut -f1)
+          MINI_READABLE_SIZE=$(du -sh Homelabian-mini*.raw | cut -f1)
+
+          echo "FULL_RAW_SIZE=$FULL_RAW_SIZE" | tee -a $GITHUB_ENV
+          echo "FULL_READABLE_SIZE=$FULL_READABLE_SIZE" | tee -a $GITHUB_ENV
+          echo "MINI_RAW_SIZE=$MINI_RAW_SIZE" | tee -a $GITHUB_ENV
+          echo "MINI_READABLE_SIZE=$MINI_READABLE_SIZE" | tee -a $GITHUB_ENV
+
+      - name: Compress images
         if: github.ref_type == 'tag'
         working-directory: build
         run: |
-          FILE=$(ls Homelabian*.raw)
+          FULL_FILE=$(ls homelabian-full*.img)
+          MINI_FILE=$(ls homelabian-mini*.img)
           sudo chown -R $USER:$USER .
-          zip -9 "${FILE}.zip" "${FILE}"
+          zip -9 "${FULL_FILE}.zip" "${FULL_FILE}"
+          zip -9 "${MINI_FILE}.zip" "${MINI_FILE}"
 
-      - name: Release image
+      - name: Release images
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
           working_directory: build
-          files: Homelabian*.raw.zip
+          files: homelabian*.img.zip
           prerelease: true
           fail_on_unmatched_files: true
           generate_release_notes: true
 
-      - name: Create image size badge
+      - name: Create full image size badge
         uses: schneegans/dynamic-badges-action@v1.9.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 0ec3052f4bd1c320fa986de9ae312d59
           filename: img-size.json
-          label: Raw Image Size
-          message: ${{ env.IMAGE_SIZE }}
-          valColorRange: ${{ env.IMAGE_RAW_SIZE }}
+          label: Full Image Size
+          message: ${{ env.FULL_READABLE_SIZE }}
+          valColorRange: ${{ env.FULL_RAW_SIZE }}
           invertColorRange: true
           maxColorRange: 4000000
+          minColorRange: 0000000
+
+      - name: Create mini image size badge
+        uses: schneegans/dynamic-badges-action@v1.9.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 0ec3052f4bd1c320fa986de9ae312d59
+          filename: mini-size.json
+          label: Mini Image Size
+          message: ${{ env.MINI_READABLE_SIZE }}
+          valColorRange: ${{ env.MINI_RAW_SIZE }}
+          invertColorRange: true
+          maxColorRange: 2000000
           minColorRange: 0000000

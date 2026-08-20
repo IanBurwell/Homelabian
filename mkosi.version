@@ -5,11 +5,4 @@
 # used for external version tracking, e.g. with git describe or date '+%Y-%m-%d'. 
 # Note that this script is executed on the host system without any sandboxing.
 
-# I am choosing to "version" solely via commit, build date, and git cleanliness.
-# This makes it possible to track builds back to their source without needing to
-# implement and follow a "strict" versioning system 
-
-GIT_DESCIPTION=$(git describe --long --always --dirty)
-DATE=$(date '+%F_%R')
-
-echo "${GIT_DESCIPTION}_(${DATE})"
+git describe --dirty

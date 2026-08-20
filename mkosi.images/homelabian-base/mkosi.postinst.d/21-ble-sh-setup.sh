@@ -5,6 +5,6 @@ set -x  # debug print script commands in build log
 # This script runs after building and installing everything into the image
 # In particular, it sets up ble.sh for the normal user
 
-echo 'source -- /usr/share/blesh/ble.sh' >> /home/$NEW_USER/.bashrc
+echo 'source -- /usr/share/blesh/ble.sh' >> "$BUILDROOT/home/$NEW_USER/.bashrc"
 
 # TODO: prevent ble.sh from spamming some random setup info on first boot

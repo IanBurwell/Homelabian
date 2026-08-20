@@ -1,5 +1,6 @@
 {
     "files.exclude": {
-        "mkosi.tools/": true
+        "mkosi.tools/": true,
+        "mkosi.tools.manifest": true,
     }
 }

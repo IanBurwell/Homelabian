@@ -5,16 +5,16 @@ set -x
 # Deletes package translations for other languages which take up space and provide little value
 
 # Extract the exact value of `Locale=`
-FULL_LOCALE=$(awk -F= '/^Locale=/ {print $2}' mkosi.conf)
-if [ -z "$FULL_LOCALE" ]; then
-  echo "Error: Locale= setting not found in mkosi.conf"
+CONFIG_LOCALE=$(jq -r '.Locale | select(. != null)' "$MKOSI_CONFIG")
+if [[ -z "$CONFIG_LOCALE" ]]; then
+  echo "Error: Locale= setting not found"
   exit 1
 fi
 
 # Extract just the base language code (ex "en" from "en_US.UTF-8")
-LANG_PREFIX=$(echo "$FULL_LOCALE" | cut -d_ -f1)
+LANG_PREFIX=$(echo "$CONFIG_LOCALE" | cut -d_ -f1)
 
 # Delete extra translations in `/usr/share/locale/` 
-find /usr/share/locale/ -mindepth 1 -maxdepth 1 ! -name "*${LANG_PREFIX}" ! -name '*.alias' -exec rm -rf {} +
+mkosi-chroot find /usr/share/locale/ -mindepth 1 -maxdepth 1 ! -name "*${LANG_PREFIX}" ! -name '*.alias' -exec rm -rf {} +
 
 echo "Deleted locales for everything except: ${LANG_PREFIX}"

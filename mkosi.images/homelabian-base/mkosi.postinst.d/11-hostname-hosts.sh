@@ -6,5 +6,7 @@ set -x  # debug print script commands in build log
 # In particular, it adds the custom hostname to `/etc/hosts` to prevent sudo warnings
 
 # Extract the hostname directly from the mkosi configuration file
-IMAGE_HOSTNAME=$(grep "^Hostname=" $SRCDIR/mkosi.conf | cut -d '=' -f 2)
-echo "127.0.1.1       $IMAGE_HOSTNAME" >> "$BUILDROOT/etc/hosts"
+CONFIG_HOSTNAME=$(jq -r '.Hostname | select(. != null)' "$MKOSI_CONFIG")
+if [[ -n "$CONFIG_HOSTNAME" ]]; then
+    echo "127.0.1.1       $CONFIG_HOSTNAME" >> "$BUILDROOT/etc/hosts"
+fi
