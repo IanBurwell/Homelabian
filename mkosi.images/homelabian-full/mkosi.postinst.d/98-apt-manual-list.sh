@@ -1,0 +1,1 @@
+../../homelabian-base/mkosi.postinst.d/98-apt-manual-list.sh

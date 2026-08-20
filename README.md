@@ -22,7 +22,7 @@ mkosi --version
 
 2. Create a `.env` to you liking (see `.env.example`). User password can be generated with `openssl passwd -6`.
 3. To build, just run `sudo mkosi -f` (sudo required for custom users).
-4. To quickly test in a sandbox use `mkosi boot`. To test the image in a full VM, run `sudo mkosi vm`. Note you can add `-f` to also re-build the image.
+4. To quickly test in a sandbox use `mkosi boot`. To test the image in a full VM, run `sudo mkosi vm`. Note you can add `-f` to also re-build the image. **TODO this no longer works with the new subimage setup**
 
 ## Other helpful stuff
 

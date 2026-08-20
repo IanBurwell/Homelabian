@@ -5,4 +5,4 @@
 # used for external version tracking, e.g. with git describe or date '+%Y-%m-%d'. 
 # Note that this script is executed on the host system without any sandboxing.
 
-git describe --dirty
+git describe --always --dirty
