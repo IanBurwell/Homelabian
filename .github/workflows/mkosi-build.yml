@@ -31,10 +31,10 @@ jobs:
         working-directory: build
         run: |
           FULL_RAW_SIZE=$(du -s homelabian-full*.img | cut -f1)
-          FULL_READABLE_SIZE=$(du -sh Homelabian-full*.img | cut -f1)
+          FULL_READABLE_SIZE=$(du -sh homelabian-full*.img | cut -f1)
 
-          MINI_RAW_SIZE=$(du -s homelabian-mini*.raw | cut -f1)
-          MINI_READABLE_SIZE=$(du -sh Homelabian-mini*.raw | cut -f1)
+          MINI_RAW_SIZE=$(du -s homelabian-mini*.img | cut -f1)
+          MINI_READABLE_SIZE=$(du -sh homelabian-mini*.img | cut -f1)
 
           echo "FULL_RAW_SIZE=$FULL_RAW_SIZE" | tee -a $GITHUB_ENV
           echo "FULL_READABLE_SIZE=$FULL_READABLE_SIZE" | tee -a $GITHUB_ENV
