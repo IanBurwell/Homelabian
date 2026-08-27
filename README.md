@@ -22,8 +22,17 @@ mkosi --version
 
 2. Create a `.env` to you liking (see `.env.example`). User password can be generated with `openssl passwd -6`.
 3. To build, just run `sudo mkosi -f` (sudo required for custom users).
-4. To quickly test in a sandbox use `sudo systemd-nspawn --boot --image build/homelabian-mini_*.img` (use `CTRL+]]]` to exit).
+4. To quickly test the rootfs in a sandbox use `sudo systemd-nspawn --boot --image build/homelabian-mini_*.img` (use `CTRL+]]]` to exit).
+5. To test in a vm, install `qemu-system-x86` and run the below (exit with `CTRL-A`+`X`):
+  ```bash
+  sudo qemu-system-x86_64 \
+    -m 2G \
+    -machine q35 \
+    -bios /usr/share/ovmf/OVMF.fd \
+    -drive file=$(ls build/homelabian-flasher_*.img | head -n 1),format=raw,if=virtio
+  ```
 
 ## Other helpful stuff
 
 - [`mkosi`'s man page](https://github.com/systemd/mkosi/blob/main/mkosi/resources/man/mkosi.1.md) for usage and documentation.
+- To update an OS image in-place, one can use `kexec` to boot an new kernel/initramfs. [NixOS has a nice way to do this](https://github.com/nix-community/nixos-images#kexec-tarballs), and after booting the server into it you can SCP over a new homelabian image and `dd` it to the main disk.
