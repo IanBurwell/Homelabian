@@ -29,13 +29,15 @@ useradd --create-home \
 usermod -aG sudo $NEW_USER
 
 # Setup SSH authorized keys for the user to allow remote passwordless login
-mkdir -p "/home/$NEW_USER/.ssh"
 if [[ -z "$AUTHORIZED_SSH_PUB_KEY" ]]; then
     echo "Warning: AUTHORIZED_SSH_PUB_KEY not set, skipping ssh pub key install" >&2
 else
-    echo "$AUTHORIZED_SSH_PUB_KEY" > "/home/$NEW_USER/.ssh/authorized_keys"
+    mkdir -p "/home/$NEW_USER/.ssh"
+    chmod 0755 "/home/$NEW_USER"
     chmod 0700 "/home/$NEW_USER/.ssh"
+    echo "$AUTHORIZED_SSH_PUB_KEY" > "/home/$NEW_USER/.ssh/authorized_keys"
     chmod 0600 "/home/$NEW_USER/.ssh/authorized_keys"
+    chown -R $NEW_USER:$NEW_USER "/home/$NEW_USER/.ssh"
 fi
 
 # Add /usr/sbin to their PATH
