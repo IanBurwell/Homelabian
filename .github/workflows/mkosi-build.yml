@@ -48,15 +48,15 @@ jobs:
           FULL_FILE=$(ls homelabian-full*.img)
           MINI_FILE=$(ls homelabian-mini*.img)
           sudo chown -R $USER:$USER .
-          zip -9 "${FULL_FILE}.zip" "${FULL_FILE}"
-          zip -9 "${MINI_FILE}.zip" "${MINI_FILE}"
+          gzip -8 "${FULL_FILE}"
+          gzip -8 "${MINI_FILE}"
 
       - name: Release images
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
           working_directory: build
-          files: homelabian*.img.zip
+          files: homelabian*.img.gz
           prerelease: true
           fail_on_unmatched_files: true
           generate_release_notes: true
